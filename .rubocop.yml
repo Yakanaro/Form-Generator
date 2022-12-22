@@ -11,3 +11,9 @@ Style/StringLiteralsInInterpolation:
 
 Layout/LineLength:
   Max: 120
+
+Lint/NonDeterministicRequireOrder:
+  Enbled: false
+
+Gemspec/RequiredRubyVersion:
+  Enabled: false
