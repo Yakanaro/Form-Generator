@@ -8,8 +8,8 @@ class Submit
 
   def self.build(value)
     submit = {}
-    submit[:name] = TAG_NAME
-    submit[:attributes] = { name: NAME, type: TYPE, value: value }
+    submit["name"] = TAG_NAME
+    submit["attributes"] = { :name NAME, :type TYPE, :value value }
     submit
   end
 end
