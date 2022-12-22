@@ -23,8 +23,8 @@ module HexletCode
         Tag.build 'input', **attrs.merge(value: caption)
       end
 
-      def div(**attrs, &block)
-        Tag.build 'div', **attrs, &block
+      def div(**attrs, &)
+        Tag.build 'div', **attrs, &
       end
 
       def h4(text, **attrs)
