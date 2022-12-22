@@ -2,18 +2,19 @@
 
 require_relative 'hexlet_code/version'
 
-# documentation comment here
 module HexletCode
-  autoload(:FormBuilder, 'hexlet_code/form_builder.rb')
-  autoload(:FormTemplate, 'hexlet_code/form_template.rb')
-  autoload(:Inputs, 'hexlet_code/inputs.rb')
-  autoload(:Tag, 'hexlet_code/tag.rb')
+  autoload('FormBuilder', 'hexlet_code/form_builder.rb')
+  autoload('Tag', 'hexlet_code/tag.rb')
 
-  class Error < StandardError; end
+  class << self
+    def form_for(person, url: '#', **kvargs, &block)
+      options = { action: url, method: 'post' }.merge(kvargs)
 
-  def self.form_for(entity, **attributes)
-    builder = FormBuilder.new(entity, attributes)
-    yield builder
-    FormTemplate.render(builder)
+      HexletCode::Tag.build('form', **options) do
+        f = HexletCode::FormBuilder.new(person)
+        block.call(f) if block_given?
+        "#{f.result}\n"
+      end
+    end
   end
 end

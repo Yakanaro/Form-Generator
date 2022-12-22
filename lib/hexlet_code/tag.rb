@@ -1,23 +1,35 @@
 # frozen_string_literal: true
 
-# documentation comment for module HexletCode::Tag
 module HexletCode
-  # top-level documentation comment for module HexletCode::Tag
-  module Tag
-    def self.build(name, **attributes)
-      single_html_tags = %w[!doctype area base br col embed hr img input keygen link meta param param source track wbr]
-      attributes = attributes_to_string(attributes)
-      if single_html_tags.include?(name)
-        %(<#{name}#{attributes}>\n)
-      else
-        %(<#{name}#{attributes}\>#{yield}</#{name}>\n)
-      end
-    end
+  class Tag
+    UNPAIRED_TAGS = %w[meta img link br hr input area param col base].freeze
+    class << self
+      def build(tag, **kvargs, &block)
+        result = []
 
-    def self.attributes_to_string(hash)
-      hash.map do |key, val|
-        %( #{key}='#{val}')
-      end.join
+        result << '<'
+        result << tag
+        add_hash(result, kvargs) if kvargs.any?
+        result << '>'
+
+        unless UNPAIRED_TAGS.include? tag
+          add_block(result, block) if block_given?
+          result << "</#{tag}>"
+        end
+        result.join
+      end
+
+      private
+
+      def add_hash(result, kvargs)
+        kvargs.each do |k, v|
+          result << " #{k}=\"#{v}\""
+        end
+      end
+
+      def add_block(result, block)
+        result << block.call.to_s
+      end
     end
   end
 end

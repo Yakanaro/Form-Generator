@@ -1,38 +1,23 @@
-[![Github-Basic-Action](https://github.com/Liocha/rails-project-lvl1/actions/workflows/main.yml/badge.svg)](https://github.com/Liocha/rails-project-lvl1/actions/workflows/main.yml)
+### Hexlet tests and linter status:
+[![Actions Status](https://github.com/svetlanaevgrafova/rails-project-lvl1/workflows/hexlet-check/badge.svg)](https://github.com/svetlanaevgrafova/rails-project-lvl1/actions)
+[![Makefile linter CI](https://github.com/svetlanaevgrafova/rails-project-lvl1/actions/workflows/linter.yml/badge.svg?branch=main)](https://github.com/svetlanaevgrafova/rails-project-lvl1/actions/workflows/linter.yml)
+[![Makefile test CI](https://github.com/svetlanaevgrafova/rails-project-lvl1/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/svetlanaevgrafova/rails-project-lvl1/actions/workflows/test.yml)
 
-[![hexlet-check](https://github.com/Liocha/rails-project-lvl1/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Liocha/rails-project-lvl1/actions/workflows/hexlet-check.yml)
-
-# HexletCode
-
-Првый gem созданный в рамках учебного проекта на [hexlet](https://ru.hexlet.io/?ref=257626) по программе [Разработчик на Ruby on Rails](https://ru.hexlet.io/programs/rails?ref=257626)
-
-## Установка
-
-Добавьте в Gemfile:
+### Usage example
 
 ```ruby
-gem 'hexlet_code'
+User = Struct.new(:name, :job, :gender, keyword_init: true)
+user = User.new name: 'rob', job: 'hexlet', gender: 'm'
+
+HexletCode.form_for user do |f|
+  # Проверяет есть ли значение внутри name
+  f.input :name
+  # Проверяет есть ли значение внутри job
+  f.input :job, as: :text
+end
+
+# <form action="#" method="post">
+#   <input name="name" type="text" value="rob">
+#   <textarea cols="20" rows="40" name="job">hexlet</textarea>
+# </form>
 ```
-
-И выполните:
-
-    $ bundle install
-
-Или установите его самостоятельно как:
-
-    $ gem install hexlet_code
-
-## Использование
-
-Запускаем  run `bin/setup` для установки зависимостей.
-
-## Разработка
-
-Ruby код находится в файле `lib/hexlet_code`
-Для экспериментов с кодом запускаем `bin/console`
-
-Чтобы установить этот гем на свой локальный компьютер, запустите `bundle exec rake install`. Чтобы выпустить новую версию, обновите номер версии в `version.rb`, а затем запустите `bundle exec rake release`, который создаст тег git для версии, поместит git-коммиты и созданный тег, а затем поместит файл `. gem` на [rubygems.org](https://rubygems.org). 
-
-## Содействие
-
-Сообщения об ошибках и запросы на pull requests приветствуются на GitHub по адресу https://github.com/Liocha/hexlet_code.

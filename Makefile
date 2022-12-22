@@ -1,11 +1,9 @@
-install: 
-	bundle install
+# bundle install устанавливает зависимости из Gemfile
+install:
+	bundle install 
+
+test:
+	bundle exec rspec
 
 lint:
-	bundle exec rubocop .
-
-la:
-	bundle exec rubocop -A .
-
-tests:
-	rake test
+	bundle exec rubocop
