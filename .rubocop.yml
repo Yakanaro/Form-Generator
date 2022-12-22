@@ -2,12 +2,10 @@ AllCops:
   TargetRubyVersion: 2.6
 
 Style/StringLiterals:
-  Enabled: true
-  EnforcedStyle: double_quotes
+  Enabled: false
 
 Style/StringLiteralsInInterpolation:
-  Enabled: true
-  EnforcedStyle: double_quotes
+  Enabled: false
 
 Layout/LineLength:
   Max: 120
