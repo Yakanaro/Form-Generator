@@ -1,9 +1,13 @@
-# bundle install устанавливает зависимости из Gemfile
-install:
-	bundle install 
+install: # полезна при первом клонировании репозитория (или после удаления зависимостей)
+	bundle install
 
-test:
-	bundle exec rspec
+lint: # check all Ruby source files in the current directory
+	bundle exec rubocop lib/ test/ 
 
-lint:
-	bundle exec rubocop
+autocorrect:
+	rubocop -a
+
+test: # run all tests in ./test/
+	bundle exec rake test
+
+.PHONY: test

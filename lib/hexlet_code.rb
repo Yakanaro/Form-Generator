@@ -3,18 +3,30 @@
 require_relative 'hexlet_code/version'
 
 module HexletCode
-  autoload('FormBuilder', 'hexlet_code/form_builder.rb')
-  autoload('Tag', 'hexlet_code/tag.rb')
+  autoload :Tag, 'hexlet_code/tag.rb'
+  autoload :Controls, 'hexlet_code/controls.rb'
+  autoload :Form, 'hexlet_code/form.rb'
+  autoload :Rendering, 'hexlet_code/rendering.rb'
+  autoload :Html, 'hexlet_code/html.rb'
+  autoload :HtmlControls, 'hexlet_code/html_controls.rb'
+
+  require 'hexlet_code/input'
 
   class << self
-    def form_for(person, url: '#', **kvargs, &block)
-      options = { action: url, method: 'post' }.merge(kvargs)
+    def form_for(model, **attrs)
+      form = Form.new model, **attrs
+      yield form if block_given?
+      Rendering.render_control form
+    end
 
-      HexletCode::Tag.build('form', **options) do
-        f = HexletCode::FormBuilder.new(person)
-        block.call(f) if block_given?
-        "#{f.result}\n"
+    def register_html_controls
+      HtmlControls.singleton_methods.each do |method_name|
+        Rendering.register_renderer method_name, (HtmlControls.method method_name).to_proc
       end
     end
+
+    private :register_html_controls
   end
+
+  register_html_controls
 end

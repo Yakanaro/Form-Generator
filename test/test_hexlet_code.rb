@@ -1,47 +1,56 @@
 # frozen_string_literal: true
 
-require_relative 'test_helper'
+require 'test_helper'
 
-User = Struct.new(:name, :job, keyword_init: true)
+class TestHexletCode < Minitest::Test
+  def setup
+    @user = User.new name: 'Rob', job: 'hexlet'
+  end
 
-class HexletCodeTest < Minitest::Test
   def test_that_it_has_a_version_number
     refute_nil ::HexletCode::VERSION
   end
 
-  def test_first_form_equal
-    expected = get_fixture_data('first_form.html')
-    user = User.new job: 'hexlet'
-
-    result = HexletCode.form_for user do |f|
-      f.input :name
-      f.input :job
-      f.submit
-    end
-
-    assert { expected == result }
+  def test_form_for_return_string_result
+    assert_instance_of String, (
+      HexletCode.form_for @user
+    )
   end
 
-  def test_second_form_equal
-    expected = get_fixture_data('second_form.html')
-
-    user = User.new name: 'rot', job: 'Bullshit'
-
-    result = HexletCode.form_for user, url: '/users' do |f|
-      f.input :name, class: 'hyl'
-      f.input :job, as: :text, rows: 50, cols: 50
-      f.submit 'Wow'
-    end
-    assert { expected == result }
+  def test_form_for_return_form_tag
+    target = HexletCode.form_for @user
+    assert_start_with_opening_tag target, 'form'
+    assert_end_with_closing_tag target, 'form'
+    assert_include_tag_attribute target, 'action', '#'
+    assert_include_tag_attribute target, 'method', 'post'
   end
 
-  def test_field_does_not_exist_error
-    user = User.new job: 'hexlet'
-    assert_raises NoMethodError do
-      HexletCode.form_for user, url: '/users' do |f|
-        f.input :name
-        f.input :job, as: :text
-        f.input :age
+  def test_form_for_process_url_param
+    path = '/users'
+    target =
+      HexletCode.form_for @user, url: path
+    assert_include_tag_attribute target, 'action', path
+  end
+
+  def test_hexlet_integration
+    target = HexletCode.form_for @user do |form|
+      form.input :name
+      form.input :job, as: :text
+      form.submit 'It works!'
+    end
+    assert_start_with_opening_tag target, 'form'
+    assert_end_with_closing_tag target, 'form'
+    assert_include_tag(target, 'label', for: 'name') { 'Name' }
+    assert_include_tag target, 'input', name: 'name', type: 'text', value: @user.name
+    assert_include_tag(target, 'label', for: 'job') { 'Job' }
+    assert_include_tag(target, 'textarea', name: 'job') { 'hexlet' }
+    assert_include_tag target, 'input', name: 'commit', type: 'submit', value: 'It works!'
+  end
+
+  def test_raises_if_field_absent
+    assert_raises(NoMethodError) do
+      HexletCode.form_for @user do |form|
+        form.input :age
       end
     end
   end
