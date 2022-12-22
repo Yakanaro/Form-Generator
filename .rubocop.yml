@@ -19,3 +19,5 @@ Layout/LineLength:
   Max: 120
 Naming/BlockForwarding:
   Enabled: false
+Lint/Syntax:
+  Enabled: false
