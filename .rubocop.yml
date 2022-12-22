@@ -17,3 +17,7 @@ Style/AsciiComments:
   Enabled: false
 Layout/LineLength:
   Max: 120
+Naming/BlockForwarding:
+  Enabled: false
+Style/RedundantDoubleSplatHashBraces:
+  Enablde: false
