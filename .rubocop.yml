@@ -15,3 +15,9 @@ Lint/NonDeterministicRequireOrder:
 
 Gemspec/RequiredRubyVersion:
   Enabled: false
+
+Style/HashSyntax:
+  Enbled: false
+
+Metrics/BlockLength:
+  Max: 45
