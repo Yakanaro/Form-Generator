@@ -14,7 +14,7 @@ class TestForm < Minitest::Test
   end
 
   def test_form_create_controls
-    form = HexletCode::Form.new model, ** { form_attr1: :value1 }
+    form = HexletCode::Form.new model, ** ( form_attr1: :value1 )
     form.label 'text'
     form.text_input :name
     form.submit
