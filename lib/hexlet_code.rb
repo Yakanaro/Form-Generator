@@ -14,7 +14,7 @@ module HexletCode
     tag_name = 'form'
     action = url ? (url[:url]).to_s : '#'
     method = 'post'
-    Tag.build(tag_name, action: action, method: method) do
+    Tag.build(tag_name, action:, method:) do
       yield(field_generator) if block_given?
       field_generator.generate_html
     end
