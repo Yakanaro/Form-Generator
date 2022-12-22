@@ -1,26 +1,23 @@
 # frozen_string_literal: true
 
+# documentation comment for module HexletCode::Tag
 module HexletCode
-  # Class to generate html tags
-  class Tag
-    class << self
-      def build(name, **attrs, &block)
-        if paired_tag?(block)
-          "<#{name}#{render_tag_attrs(attrs)}>#{block.call}</#{name}>"
-        else
-          "<#{name}#{render_tag_attrs(attrs)}>"
-        end
+  # top-level documentation comment for module HexletCode::Tag
+  module Tag
+    def self.build(name, **attributes)
+      single_html_tags = %w[!doctype area base br col embed hr img input keygen link meta param param source track wbr]
+      attributes = attributes_to_string(attributes)
+      if single_html_tags.include?(name)
+        %(<#{name}#{attributes}>\n)
+      else
+        %(<#{name}#{attributes}\>#{yield}</#{name}>\n)
       end
+    end
 
-      private
-
-      def paired_tag?(block)
-        !!block
-      end
-
-      def render_tag_attrs(attrs)
-        attrs.map { |k, v| %( #{k}="#{v}") }.join
-      end
+    def self.attributes_to_string(hash)
+      hash.map do |key, val|
+        %( #{key}='#{val}')
+      end.join
     end
   end
 end

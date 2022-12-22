@@ -1,12 +1,11 @@
-.PHONY : up
-
-prepare :
+install: 
 	bundle install
 
-lint :
-	bundle exec rake rubocop
+lint:
+	bundle exec rubocop .
 
-test :
-	bundle exec rspec
+la:
+	bundle exec rubocop -A .
 
-up : prepare test lint
+tests:
+	rake test

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module HexletCode
-  # Class to generate html tags
   module Inputs
-    autoload :Textfield, 'hexlet_code/inputs/textfield.rb'
-    autoload :Text, 'hexlet_code/inputs/text.rb'
-    autoload :Select, 'hexlet_code/inputs/select.rb'
+    autoload(:Base, 'hexlet_code/inputs/base.rb')
+    autoload(:StringInput, 'hexlet_code/inputs/string_input.rb')
+    autoload(:TextInput, 'hexlet_code/inputs/text_input.rb')
+    autoload(:SubmitInput, 'hexlet_code/inputs/submit_input.rb')
   end
 end

@@ -5,26 +5,21 @@ require_relative 'lib/hexlet_code/version'
 Gem::Specification.new do |spec|
   spec.name          = 'hexlet_code'
   spec.version       = HexletCode::VERSION
-  spec.authors       = ['yakanaro']
-  spec.email         = ['kipaherd@gmail.com']
-
-  spec.summary       = 'hexlet task1'
-  spec.description   = 'hexlet task1: simple form analog'
-  spec.homepage      = 'https://hexlet.io'
-  spec.required_ruby_version = '>= 3.0.1'
-
-  spec.metadata['allowed_push_host'] = 'https://hexlet.io'
+  spec.authors       = ['Alex']
+  spec.email         = ['dev@liocha.ru']
+  spec.summary       = 'Example summary'
+  spec.description   = 'hexlet ruby project 1'
+  spec.homepage      = 'https://github.com/Liocha/rails-project-lvl1'
+  spec.required_ruby_version = Gem::Requirement.new('>= 3.0.0')
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://hexlet.io'
-  spec.metadata['changelog_uri'] = 'https://hexlet.io'
+  spec.metadata['source_code_uri'] = 'https://github.com/Liocha/rails-project-lvl1'
+  spec.metadata['changelog_uri'] = 'https://github.com/Liocha/rails-project-lvl1'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
-    `git ls-files -z`.split("\x0").reject do |f|
-      (f == __FILE__) || f.match(%r{\A(?:(?:test|spec|features)/|\.(?:git|travis|circleci)|appveyor)})
-    end
+    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{\A(?:test|spec|features)/}) }
   end
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
