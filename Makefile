@@ -1,11 +1,12 @@
-install:
+.PHONY : up
+
+prepare :
 	bundle install
 
-lint:
-	bundle exec rubocop
+lint :
+	bundle exec rake rubocop
 
-lint-fix:
-	bundle exec rubocop -A
+test :
+	bundle exec rspec
 
-minitest:
-	ruby -Ilib:test test/test_hexlet_code.rb
+up : prepare test lint

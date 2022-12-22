@@ -1,8 +1,11 @@
-[![Makefile CI](https://github.com/rumspace/rails-project-lvl1/actions/workflows/makefile.yml/badge.svg)](https://github.com/rumspace/rails-project-lvl1/actions/workflows/makefile.yml) [![hexlet-check](https://github.com/rumspace/rails-project-lvl1/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/rumspace/rails-project-lvl1/actions/workflows/hexlet-check.yml)
+[![Main workflow](https://github.com/otmosina/rails-project-lvl1/actions/workflows/main.yml/badge.svg)](https://github.com/otmosina/rails-project-lvl1/actions/workflows/main.yml)
+[![hexlet-check](https://github.com/otmosina/rails-project-lvl1/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/otmosina/rails-project-lvl1/actions/workflows/hexlet-check.yml)
 
 # HexletCode
 
-**HexletCode** is a HTML text form generator that simplifies your forms generation similar to SimpleForm.
+Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/hexlet_code`. To experiment with that code, run `bin/console` for an interactive prompt.
+
+TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
@@ -19,79 +22,65 @@ And then execute:
 Or install it yourself as:
 
     $ gem install hexlet_code
+    
+For local development you must have ruby >= 3.0.1 and just run
+
+    $ make up
 
 ## Usage
 
-To use the gem firstly require it in your code by using:
+### HexletCode::Tag.build
 
-```ruby
-require "hexlet_code"
+Use **HexletCode::Tag.build** for write html tags
+
+`HexletCode::Tag.build('br')` => `<br>`
+
+`HexletCode::Tag.build('img', src: 'path/to/image'))` => `<img src="path/to/image">`
+
+`HexletCode::Tag.build('input', type: 'submit', value: 'Save')` => `<input type="submit" value="Save">`
+
+Pass block as argument to put anything inside tag
+
+`HexletCode::Tag.build('label') { 'Email' })` => `<label>Email</label>`
+
+`HexletCode::Tag.build('label', for: 'email') { 'Email' })` => `<label for="email">Email</label>`
+
+### HexletCode.form_for
+
+Use HexletCode.form_for to write html form. Pass object as parameter and block which will be rendered as forms fields
+
 ```
-
-To use method `form_for` which generates HTML form it's required to define a `Struct` and initialize an object with data.
-
-```ruby
-User = Struct.new(:name, :job, keyword_init: true)
-user = User.new job: 'hexlet'
- 
-HexletCode.form_for user do |f|
-  f.input :name
-  f.input :job
- f.submit
-end
-
-# <form action="#" method="post">
-#   <label for="name">Name</label>
-#   <input name="name" type="text">
-#   <label for="job">Job</label>
-#   <input name="job" type="text" value="hexlet">
-#   <input name="commit" type="submit" value="Save">
-# </form>
-```
-
-A method `input` passed in a block has an option to send a type of input you want to generate.
-
-```ruby
 User = Struct.new(:name, :job, :gender, keyword_init: true)
-user = User.new name: 'rob', job: 'hexlet', gender: 'm'
-
+user = User.new(name: 'rob', job: 'hexlet', gender: 'm')
 HexletCode.form_for user do |f|
   f.input :name
   f.input :job, as: :text
+  f.input :gender, as: :select, collection: %w[m f]
 end
-
-# <form action="#" method="post">
-#   <input name="name" type="text" value="rob">
-#   <textarea cols="20" rows="40" name="job">hexlet</textarea>
-# </form>
 ```
 
-If the object has no field to call for, `NoMethodError` will be raised.
-
-```ruby
-html = HexletCode.form_for user, url: '/users' do |f|
-  f.input :name
-  f.input :job, as: :text
-  # Поля age у пользователя нет
-  f.input :age
-end
-# =>  `public_send': undefined method `age' for #<struct User id=nil, name=nil, job=nil> (NoMethodError)
+=>
 ```
+<form action="#" method="post">
+  <label for="name">Name</label>
+  <input type="text" name="name" value="rob">
+  <label for="job">Job</label>
+  <textarea name="job" cols="20" rows="40">hexlet</textarea>
+  <label for="gender">Gender</label>
+  <select name="gender">
+  <option value="m" selected>m</option>
+  <option value="f">f</option>
+  </select>
+</form>
+```
+
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` or `make minitest` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/hexlet_code. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/hexlet_code/blob/master/CODE_OF_CONDUCT.md).
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the HexletCode project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/hexlet_code/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/hexlet_code.

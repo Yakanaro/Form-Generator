@@ -1,29 +1,3 @@
 AllCops:
-  TargetRubyVersion: 3.0.2
+  TargetRubyVersion: 3.0.3
   SuggestExtensions: false
-  NewCops: enable
-
-
-Style/StringLiterals:
-  Enabled: true
-  EnforcedStyle: single_quotes
-
-Style/StringLiteralsInInterpolation:
-  Enabled: true
-  EnforcedStyle: single_quotes
-
-Style/RedundantArgument:
-  Enabled: true
-
-Style/Documentation:
-  Enabled: false
-
-Style/AsciiComments:
-  Enabled: false
-
-Layout/LineLength:
-  Enabled: true
-  Max: 120
-
-Metrics/MethodLength:
-  Enabled: false

@@ -2,13 +2,16 @@
 
 source 'https://rubygems.org'
 
+ruby '3.0.3'
 # Specify your gem's dependencies in hexlet_code.gemspec
 gemspec
 
-gem 'rake'
+gem 'rake', '~> 13.0'
 
-gem 'minitest'
+gem 'rspec', '~> 3.0'
 
-gem 'rubocop'
+gem 'rubocop', '~> 1.7'
+gem 'rubocop-rspec'
 
-gem 'minitest-power_assert'
+gem 'pry'
+gem 'rspec-html-matchers'
