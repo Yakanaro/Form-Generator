@@ -3,55 +3,61 @@
 require 'test_helper'
 
 class TestHexletCode < Minitest::Test
-  def setup
-    @user = User.new name: 'Rob', job: 'hexlet'
-  end
+  PATH_FIXTURES = "#{File.dirname(__FILE__)}/fixtures".freeze
+  User = Struct.new(:name, :job, :gender, keyword_init: true)
 
   def test_that_it_has_a_version_number
     refute_nil ::HexletCode::VERSION
   end
 
-  def test_form_for_return_string_result
-    assert_instance_of String, (
-      HexletCode.form_for @user
-    )
-  end
+  def test_form_for
+    user = User.new name: 'rob'
 
-  def test_form_for_return_form_tag
-    target = HexletCode.form_for @user
-    assert_start_with_opening_tag target, 'form'
-    assert_end_with_closing_tag target, 'form'
-    assert_include_tag_attribute target, 'action', '#'
-    assert_include_tag_attribute target, 'method', 'post'
-  end
-
-  def test_form_for_process_url_param
-    path = '/users'
-    target =
-      HexletCode.form_for @user, url: path
-    assert_include_tag_attribute target, 'action', path
-  end
-
-  def test_hexlet_integration
-    target = HexletCode.form_for @user do |form|
-      form.input :name
-      form.input :job, as: :text
-      form.submit 'It works!'
+    assert do
+      HexletCode.form_for(user) == File.read("#{PATH_FIXTURES}/html_test_form_for1.html").delete("\r\n")
     end
-    assert_start_with_opening_tag target, 'form'
-    assert_end_with_closing_tag target, 'form'
-    assert_include_tag(target, 'label', for: 'name') { 'Name' }
-    assert_include_tag target, 'input', name: 'name', type: 'text', value: @user.name
-    assert_include_tag(target, 'label', for: 'job') { 'Job' }
-    assert_include_tag(target, 'textarea', name: 'job') { 'hexlet' }
-    assert_include_tag target, 'input', name: 'commit', type: 'submit', value: 'It works!'
+    assert do
+      HexletCode.form_for(user, url: '/users') == File.read("#{PATH_FIXTURES}/html_test_form_for2.html").delete("\r\n")
+    end
   end
 
-  def test_raises_if_field_absent
+  def test_form_input
+    user = User.new name: 'rob', job: 'hexlet', gender: 'm'
+
+    form_string = HexletCode.form_for user do |f|
+      f.input :name
+      f.input :job, as: :text, cols: 20, rows: 30
+    end
+
+    assert do
+      form_string == File.read("#{PATH_FIXTURES}/html_test_form_input.html").delete("\r\n")
+    end
+  end
+
+  def test_form_input_error
+    user = User.new name: 'rob', job: 'hexlet', gender: 'm'
+
     assert_raises(NoMethodError) do
-      HexletCode.form_for @user do |form|
-        form.input :age
+      HexletCode.form_for user, url: '/users' do |f|
+        f.input :name
+        f.input :job, as: :text
+        f.input :age # Поля age у пользователя нет
+        f.submit
       end
+    end
+  end
+
+  def test_form_submit
+    user = User.new job: 'hexlet'
+
+    form_string = HexletCode.form_for user do |f|
+      f.input :name, class: 'user-input'
+      f.input :job, as: :text
+      f.submit
+    end
+
+    assert do
+      form_string == File.read("#{PATH_FIXTURES}/html_test_form_form_label_submit.html").delete("\r\n")
     end
   end
 end

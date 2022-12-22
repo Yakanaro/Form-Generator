@@ -1,23 +1,28 @@
 AllCops:
-  Exclude:
-    - "**/vendor/**/*"
-    - "**/*.gemspec"
-    - "spec/**"
-  NewCops: enable
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 3.0.2
   SuggestExtensions: false
+
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
+Style/RedundantArgument:
+  Enabled: true
 
 Style/Documentation:
   Enabled: false
-Metrics/MethodLength:
-  Enabled: false
-Metrics/AbcSize:
-  Enabled: true
+
 Style/AsciiComments:
   Enabled: false
+
 Layout/LineLength:
+  Enabled: true
   Max: 120
-Naming/BlockForwarding:
-  Enabled: false
-Lint/Syntax:
+
+Metrics/MethodLength:
   Enabled: false

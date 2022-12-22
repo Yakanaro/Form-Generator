@@ -1,13 +1,11 @@
-install: # полезна при первом клонировании репозитория (или после удаления зависимостей)
+install:
 	bundle install
 
-lint: # check all Ruby source files in the current directory
-	bundle exec rubocop lib/ test/ 
+lint:
+	bundle exec rubocop
 
-autocorrect:
-	rubocop -a
+lint-fix:
+	bundle exec rubocop -A
 
-test: # run all tests in ./test/
-	bundle exec rake test
-
-.PHONY: test
+minitest:
+	ruby -Ilib:test test/test_hexlet_code.rb

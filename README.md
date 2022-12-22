@@ -1,80 +1,92 @@
-### Hexlet tests and linter status:
-[![Actions Status](https://github.com/mike090/rails-project-lvl1/workflows/hexlet-check/badge.svg)](https://github.com/mike090/rails-project-lvl1/actions)
-[![CI status](https://github.com/mike090/rails-project-lvl1/actions/workflows/main.yml/badge.svg)](https://github.com/mike090/rails-project-lvl1/actions)
+[![Makefile CI](https://github.com/rumspace/rails-project-lvl1/actions/workflows/makefile.yml/badge.svg)](https://github.com/rumspace/rails-project-lvl1/actions/workflows/makefile.yml) [![hexlet-check](https://github.com/rumspace/rails-project-lvl1/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/rumspace/rails-project-lvl1/actions/workflows/hexlet-check.yml)
 
-Данный гем является итоговым проектом курса "Ruby: Основы языка" образовательной платформы [Hexlet](https://hexlet.io)
+# HexletCode
+
+**HexletCode** is a HTML text form generator that simplifies your forms generation similar to SimpleForm.
 
 ## Installation
 
-Install the gem and add to the application's Gemfile by executing:
+Add this line to your application's Gemfile:
 
-    $ bundle add late_commands
+```ruby
+gem 'hexlet_code'
+```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+And then execute:
 
-    $ gem install late_commands
+    $ bundle install
+
+Or install it yourself as:
+
+    $ gem install hexlet_code
 
 ## Usage
 
-Гем является генератором форм и предоставляет для этого метод form_for, принимающий в качестве аргументов модель, атрибуты формы и блок, в который будет передан экземпляр класса HexletCode::Form в качестве аргумента. Этот объект используется для построения структуры будущей формы. Структура формы задается последовательным вызовом методов не объекте формы. Могут быть вызваны методы с именами зарегистрированных рендеров и следующими параметрами []|[String]|[Symbol], [_**attrs]. Имя метода будет именем нового контрола, а параметры и атрибуты, переданные аргументами, будут сохранены в атрибутах контрола. Так же, по атрибуту controls доступны контролы, созданные на форме. Атрибут возвращает массив объектов класса HexletCode::Controls::Control (или его наследников). С помощью HexletCode::Controls.register_control можно регистрировать новые типы контролов. Для этого нужно передать следующие аргументы:
-* fabric - экземпляр Proc, принимающий параметры для создания контрола и возвращающий контрол
-* params_maps - массив шаблонов допустимых аргументов
-
-Для построения представления формы используется HexletCode::Rendering. Этот объект построит представление любого контрола, если предварительно зарегистрировать его (контрола) рендер. Для регистрации используется метод register_renderer, который принимает имя контрола и объект рендера. В качестве рендера может быть использован объект Proc или любой объект, отвечающий на метод :render. В качестве аргументу рендеру передается экземпляр контрола.
-
-Примеры HTML рендеров можно найти в проекте.
-
-
-Основной целью было научиться построению гибкого, расширяемого приложения.
-Практической ценности этот гем не имеет.
-
-### Пример использования
+To use the gem firstly require it in your code by using:
 
 ```ruby
-HexletCode::Rendering.register_renderer(:block,
-    Proc.new do |control| 
-        "<div class=\"d-flex\"><h4 classs=\"my-4 me-3\">#{control.text}</h4><hr class=\"my-auto w-100\"></div>"
-    end
-)
+require "hexlet_code"
+```
 
+To use method `form_for` which generates HTML form it's required to define a `Struct` and initialize an object with data.
+
+```ruby
+User = Struct.new(:name, :job, keyword_init: true)
+user = User.new job: 'hexlet'
+ 
+HexletCode.form_for user do |f|
+  f.input :name
+  f.input :job
+ f.submit
+end
+
+# <form action="#" method="post">
+#   <label for="name">Name</label>
+#   <input name="name" type="text">
+#   <label for="job">Job</label>
+#   <input name="job" type="text" value="hexlet">
+#   <input name="commit" type="submit" value="Save">
+# </form>
+```
+
+A method `input` passed in a block has an option to send a type of input you want to generate.
+
+```ruby
 User = Struct.new(:name, :job, :gender, keyword_init: true)
-user = User.new name: 'Rob', job: 'hexlet', gender: 'male'
+user = User.new name: 'rob', job: 'hexlet', gender: 'm'
 
 HexletCode.form_for user do |f|
-    f.block 'Person'
-    f.input :name
-    f.block 'Job'
-    f.input :job
-    f.submit
+  f.input :name
+  f.input :job, as: :text
 end
+
+# <form action="#" method="post">
+#   <input name="name" type="text" value="rob">
+#   <textarea cols="20" rows="40" name="job">hexlet</textarea>
+# </form>
 ```
-```html
-<form method="post" action="#">
-    <div class="d-flex">
-        <h4 classs="my-4 me-3">Person</h4>
-        <hr class="my-auto w-100\">
-    </div>
-    <label for="name">Name</label>
-    <input type="text" name="name" value="Rob">
-    <div class="d-flex">
-        <h4 classs="my-4 me-3">Job</h4>
-        <hr class="my-auto w-100\">
-    </div>
-    <label for="job">Job</label>
-    <input type="text" name="job" value="hexlet">
-    <input name="commit" type="submit" value="Save">
-</form>
+
+If the object has no field to call for, `NoMethodError` will be raised.
+
+```ruby
+html = HexletCode.form_for user, url: '/users' do |f|
+  f.input :name
+  f.input :job, as: :text
+  # Поля age у пользователя нет
+  f.input :age
+end
+# =>  `public_send': undefined method `age' for #<struct User id=nil, name=nil, job=nil> (NoMethodError)
 ```
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` or `make minitest` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/late_commands. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/late_commands/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/hexlet_code. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/hexlet_code/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -82,4 +94,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the LateCommands project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/late_commands/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the HexletCode project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/hexlet_code/blob/master/CODE_OF_CONDUCT.md).

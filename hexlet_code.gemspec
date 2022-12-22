@@ -5,24 +5,22 @@ require_relative 'lib/hexlet_code/version'
 Gem::Specification.new do |spec|
   spec.name = 'hexlet_code'
   spec.version = HexletCode::VERSION
-  spec.authors = ['mike09']
-  spec.email = ['mike09@mail.ru']
+  spec.authors = ['rumspace']
+  spec.email = ['rumspace@gmail.com']
 
-  spec.summary = 'Test project of course Ruby by hexlet'
-  spec.description = 'Test project of course Ruby by hexlet'
-  spec.homepage = 'https://github.com/mike090/rails-project-lvl1'
+  spec.summary = 'DSL form generator'
+  spec.description = 'This gem simplifies your forms generation similar to SimpleForm'
+  spec.homepage = 'https://github.com/rumspace/rails-project-lvl1'
   spec.license = 'MIT'
-  spec.required_ruby_version = '>= 2.6.0'
-
-  # spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
+  spec.required_ruby_version = '>= 3.0.2'
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/mike090/rails-project-lvl1'
-  # spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.metadata['source_code_uri'] = spec.homepage
+  spec.metadata['changelog_uri'] = spec.homepage
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
-  spec.files = Dir.chdir(__dir__) do
+  spec.files = Dir.chdir(File.expand_path(__dir__)) do
     `git ls-files -z`.split("\x0").reject do |f|
       (f == __FILE__) || f.match(%r{\A(?:(?:bin|test|spec|features)/|\.(?:git|travis|circleci)|appveyor)})
     end

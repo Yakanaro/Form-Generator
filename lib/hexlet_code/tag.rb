@@ -1,37 +1,24 @@
 # frozen_string_literal: true
 
-module HexletCode
-  module Tag
-    VOID_TAGS = %w[area base br col command embed ht img input keygen link meta param source track wbr hr].freeze
+# HTML tag generator
+class Tag
+  PAIRED_TAGS = %w[label textarea form button select optgroup fieldset output].freeze
 
-    private_constant :VOID_TAGS
+  def self.build(tag_name, attributes)
+    tag = {}
+    tag[:name] = tag_name
+    tag[:attributes] = attributes.compact
+    tag[:content] = yield if block_given?
+    tag[:end_tag] = "/#{tag_name}" if PAIRED_TAGS.include?(tag_name)
 
-    class << self
-      def build(tag_name, **attrs)
-        raise ArgumentError, 'Empty tag name' if tag_name.to_s.strip.empty?
+    generate_html(tag)
+  end
 
-        tag_parts = []
-        tag_parts << tag_open(tag_name, **attrs)
-        unless void_tag? tag_name
-          tag_parts << yield if block_given?
-          tag_parts << "</#{tag_name}>"
-        end
-        tag_parts.join
-      end
-
-      def tag_open(tag_name, **attrs)
-        attrs_str = attrs.inject('') do |result, (k, v)|
-          attr_str = v ? "#{k}=\"#{v}\"" : k.to_s
-          "#{result} #{attr_str}"
-        end
-        "<#{tag_name}#{attrs_str}>"
-      end
-
-      def void_tag?(tag_name)
-        VOID_TAGS.include? tag_name
-      end
-
-      private :tag_open, :void_tag?
+  def self.generate_html(tag)
+    attributes_array = tag[:attributes].each_with_object([]) do |attribute, result|
+      result << "#{attribute.first}=\"#{attribute.last}\""
     end
+
+    "<#{tag[:name]} #{attributes_array.join(' ')}>#{tag[:content]}#{"<#{tag[:end_tag]}>" if tag[:end_tag]}"
   end
 end

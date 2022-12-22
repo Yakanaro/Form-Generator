@@ -2,31 +2,21 @@
 
 require_relative 'hexlet_code/version'
 
+# DSL form generator
 module HexletCode
-  autoload :Tag, 'hexlet_code/tag.rb'
-  autoload :Controls, 'hexlet_code/controls.rb'
-  autoload :Form, 'hexlet_code/form.rb'
-  autoload :Rendering, 'hexlet_code/rendering.rb'
-  autoload :Html, 'hexlet_code/html.rb'
-  autoload :HtmlControls, 'hexlet_code/html_controls.rb'
+  class Error < StandardError; end
 
-  require 'hexlet_code/input'
+  # form generator
+  def self.form_for(user, url = nil)
+    autoload(:FieldGenerator, 'hexlet_code/field_generator.rb')
+    field_generator = FieldGenerator.new(user)
 
-  class << self
-    def form_for(model, **attrs)
-      form = Form.new model, **attrs
-      yield form if block_given?
-      Rendering.render_control form
+    tag_name = 'form'
+    action = url ? (url[:url]).to_s : '#'
+    method = 'post'
+    Tag.build(tag_name, action: action, method: method) do
+      yield(field_generator) if block_given?
+      field_generator.generate_html
     end
-
-    def register_html_controls
-      HtmlControls.singleton_methods.each do |method_name|
-        Rendering.register_renderer method_name, (HtmlControls.method method_name).to_proc
-      end
-    end
-
-    private :register_html_controls
   end
-
-  register_html_controls
 end
