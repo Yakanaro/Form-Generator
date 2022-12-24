@@ -20,12 +20,13 @@ Metrics/MethodLength:
 Style/Documentation:
   Enabled: false
 
-Metrics/BlockLength:
-  Max: 35
+Metrics/ModuleLength:
   Exclude:
-    - 'Rakefile'
-    - '**/*.rake'
-    - 'test/**/*.rb'
+    - "**/*_spec.rb"
+
+Metrics/BlockLength:
+  Exclude:
+    - "**/*_spec.rb"
 
 Gemspec/RequireMFA:
   Enabled: false
