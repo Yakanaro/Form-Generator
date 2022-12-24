@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-# rubocop:disable Metrics/BlockLength, Lint/RedundantCopDisableDirective, Lint/MissingCopEnableDirective
+
+# rubocop:disable Metrics/BlockLength, Lint/RedundantCopDisableDirective, Lint/MissingCopEnableDirective, Layout/EmptyLineAfterMagicComment
 
 RSpec.describe HexletCode do
   it 'has a version number' do
