@@ -3,6 +3,9 @@ AllCops:
   TargetRubyVersion: 2.6
   SuggestExtensions: false
 
+Metrics/BlockLength:
+  IgnoredMethods: ['describe', 'context']
+
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: single_quotes
