@@ -59,3 +59,4 @@ RSpec.describe HexletCode do
   end
 end
 # rubocop:enable Metrics/BlockLength
+
