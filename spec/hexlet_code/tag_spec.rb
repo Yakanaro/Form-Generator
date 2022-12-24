@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-RSpec.describe HexletCode::Tag do
+RSpec.describe
+HexletCode::Tag do
   describe '.build' do
     context 'with paired tags' do
       it 'returns paired tag html' do
