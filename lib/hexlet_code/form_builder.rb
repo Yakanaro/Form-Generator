@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/HashSyntax, Lint/RedundantCopDisableDirective, Lint/MissingCopEnableDirective, Layout/EmptyLineAfterMagicComment
+
 module HexletCode
   class FormBuilder
     attr_reader :result
