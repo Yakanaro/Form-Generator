@@ -3,10 +3,6 @@ AllCops:
   TargetRubyVersion: 2.6
   SuggestExtensions: false
 
-Metrics/BlockLength:
-  IgnoredMethods: ['describe', 'context']
-  Enabled: false
-
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: single_quotes
@@ -26,7 +22,9 @@ Style/Documentation:
 
 Metrics/BlockLength:
   Exclude:
-    - ./spec/**/*
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'test/**/*.rb'
 
 Gemspec/RequireMFA:
   Enabled: false
