@@ -1,25 +1,34 @@
 # frozen_string_literal: true
 
 module HexletCode
-  # Class to generate html tags
   class Tag
+    UNPAIRED_TAGS = %w[meta img link br hr input area param col base].freeze
     class << self
-      def build(name, **attrs, &block)
-        if paired_tag?(block)
-          "<#{name}#{render_tag_attrs(attrs)}>#{block.call}</#{name}>"
-        else
-          "<#{name}#{render_tag_attrs(attrs)}>"
+      def build(tag, **kvargs, &block)
+        result = []
+
+        result << '<'
+        result << tag
+        add_hash(result, kvargs) if kvargs.any?
+        result << '>'
+
+        unless UNPAIRED_TAGS.include? tag
+          add_block(result, block) if block_given?
+          result << "</#{tag}>"
         end
+        result.join
       end
 
       private
 
-      def paired_tag?(block)
-        !!block
+      def add_hash(result, kvargs)
+        kvargs.each do |k, v|
+          result << " #{k}=\"#{v}\""
+        end
       end
 
-      def render_tag_attrs(attrs)
-        attrs.map { |k, v| %( #{k}="#{v}") }.join
+      def add_block(result, block)
+        result << block.call.to_s
       end
     end
   end

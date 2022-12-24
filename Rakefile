@@ -9,7 +9,4 @@ require 'rubocop/rake_task'
 
 RuboCop::RakeTask.new
 
-# task default: %i[spec rubocop]
-
-task test: :spec
-task lint: :rubocop
+task default: %i[spec rubocop]

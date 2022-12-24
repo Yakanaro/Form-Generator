@@ -1,12 +1,9 @@
-.PHONY : up
+# bundle install устанавливает зависимости из Gemfile
+install:
+	bundle install 
 
-prepare :
-	bundle install
-
-lint :
-	bundle exec rake rubocop
-
-test :
+test:
 	bundle exec rspec
 
-up : prepare test lint
+lint:
+	bundle exec rubocop
