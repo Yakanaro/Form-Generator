@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# rubocop:disable Metrics/BlockLength
+
 RSpec.describe HexletCode do
   it 'has a version number' do
     expect(HexletCode::VERSION).not_to be nil
@@ -58,5 +58,3 @@ RSpec.describe HexletCode do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength
-
