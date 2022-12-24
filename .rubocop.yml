@@ -21,6 +21,7 @@ Style/Documentation:
   Enabled: false
 
 Metrics/BlockLength:
+  Max: 35
   Exclude:
     - 'Rakefile'
     - '**/*.rake'
