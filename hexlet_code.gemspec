@@ -6,11 +6,11 @@ Gem::Specification.new do |spec|
   spec.name = 'hexlet_code'
   spec.version = HexletCode::VERSION
   spec.authors = ['yakanaro']
-  spec.email = ['minada93@gmail.com']
+  spec.email = ['kipaherd@gmail.com']
 
   spec.summary = 'Simple html form generator'
   spec.description = 'Forms made easy!'
-  spec.homepage = 'https://github.com/svetlanaevgrafova/rails-project-lvl1'
+  spec.homepage = 'https://github.com/Yakanaro/Form-Generator'
   spec.license = 'MIT'
   spec.required_ruby_version = '>= 2.6.0'
 
